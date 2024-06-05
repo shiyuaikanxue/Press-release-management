@@ -1,0 +1,34 @@
+.login {
+  height: 100vh;
+  background-color: rgb(35, 39, 65);
+}
+.formContainer {
+  position: fixed;
+  background-color: rgba($color: #ffffff, $alpha: 1);
+  width: 500px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 20px;
+}
+.title {
+  text-align: center;
+  height: 80px;
+  line-height: 80px;
+  font-size: 30px;
+  color: black;
+}
+.login-form {
+  max-width: 300px;
+}
+.login-form-forgot {
+  float: right;
+}
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+.login-form-button {
+  width: 100%;
+}
