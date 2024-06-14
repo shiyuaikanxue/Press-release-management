@@ -2,8 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## preview:http://8.140.48.159/newSystem/#/login
-## account:
-## username:test_github
+## account right: editor
+## username:editor_github
+## password:123
+
+## account right :manage
+## username:manage_github
 ## password:123
 ## Available Scripts
 
