@@ -14,15 +14,16 @@ export default function NewsDraft() {
   const [dataSource, setDataSource] = useState([]);
   const [spinning, setSpinning] = useState(false);
   const { username } = JSON.parse(localStorage.getItem("token"));
+  console.log(username);
+  console.log(`/news?auditState=0&author=${username}`);
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .all([
-        axios.get(`/news?author=${username}&auditState=0`),
-        axios.get("/categories"),
-      ])
+      .all([axios.get(`/news?author=${username}`), axios.get("/categories")])
       .then(([res1, res2]) => {
-        const list = res1.data;
+        console.log(res1, res2);
+        let list = res1.data;
+        list = list.filter((item) => item.auditState == 0);
         list.map((item) => {
           item["category"] = res2.data.filter(
             (sub) => sub.id === item.categoryId

@@ -6,6 +6,7 @@ export default function NewsCategory() {
   const EditableContext = React.createContext(null);
   const { confirm } = Modal;
   const [dataSource, setDataSource] = useState([]);
+  const {roleId} = JSON.parse(localStorage.getItem("token"));
   useEffect(() => {
     axios.get("/categories").then((res) => {
       setDataSource(res.data);
@@ -71,6 +72,7 @@ export default function NewsCategory() {
           <div>
             <Button
               shape="circle"
+              disabled={roleId != 1}
               danger
               icon={<DeleteOutlined />}
               onClick={() => {

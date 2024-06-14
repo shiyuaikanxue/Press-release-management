@@ -7,12 +7,10 @@ function usePublish(type, notice) {
   const { username } = JSON.parse(localStorage.getItem("token"));
   useEffect(() => {
     axios
-      .all([
-        axios.get(`/news?author=${username}&publishState=${type}`),
-        axios.get(`/categories`),
-      ])
+      .all([axios.get(`/news?author=${username}`), axios.get(`/categories`)])
       .then(([res1, res2]) => {
-        const list = res1.data;
+        let list = res1.data;
+        list = list.filter((item) => item.publishState == type);
         list.forEach((item) => {
           item["category"] = res2.data.filter(
             (sub) => sub.id == item.categoryId

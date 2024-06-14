@@ -1,7 +1,7 @@
 import axios from "axios";
 import { showLoading, closeLoading } from "../redux/slice/loadingSlice";
 import store from "../redux/store";
-axios.defaults.baseURL = "http://8.140.48.159:8080";
+axios.defaults.baseURL = "http://localhost:5000";
 axios.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么

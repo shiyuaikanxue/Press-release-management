@@ -35,32 +35,30 @@ export default function UserList() {
         axios.get("/users"),
         axios.get("/roles"), // 假设你知道如何根据 users 的数据获取对应的 roles
       ])
-      .then(
-        axios.spread((users, roles) => {
-          const list = users.data;
-          const roleList = roles.data;
-          list.map((item) => {
-            item["role"] = roleList.filter((sub) => sub.id === item.roleId)[0];
-          });
-          setDataSource(
-            roleObj[roleType] === "superAdmin"
-              ? list
-              : [
-                  ...list.filter((item) => item.username === username),
-                  ...list.filter(
-                    (item) =>
-                      item.region === region &&
-                      roleObj[item.roleId] === "editor"
-                  ),
-                ]
-          );
-        })
-      );
+      .then(([users, roles]) => {
+        console.log(users, roles);
+        const list = users?.data;
+        const roleList = roles?.data;
+        list?.map((item) => {
+          item["role"] = roleList.filter((sub) => sub.id === item.roleId)[0];
+        });
+        setDataSource(
+          roleObj[roleType] === "superAdmin"
+            ? list
+            : [
+                ...list.filter((item) => item.username === username),
+                ...list.filter(
+                  (item) =>
+                    item.region === region && roleObj[item.roleId] === "editor"
+                ),
+              ]
+        );
+      });
   }, []);
   useEffect(() => {
     axios.get(`/roles`).then((res) => {
-      const list = res.data;
-      list.map((item) => {
+      const list = res?.data;
+      list?.map((item) => {
         item["label"] = item.roleName;
         item["value"] = item.id;
       });
@@ -69,7 +67,7 @@ export default function UserList() {
   }, []);
   useEffect(() => {
     axios.get(`/regions`).then((res) => {
-      const list = res.data;
+      const list = res?.data;
       setRegionList(list);
     });
   }, []);
@@ -145,7 +143,7 @@ export default function UserList() {
     updateForm.current.validateFields().then((value) => {
       //修改本地数据
       setDataSource(
-        dataSource.map((item) => {
+        dataSource?.map((item) => {
           //找到修改的账户
           if (currentItem.id === item.id) {
             return {
@@ -169,7 +167,7 @@ export default function UserList() {
       title: "区域",
       dataIndex: "region",
       filters: [
-        ...regionList.map((item) => ({
+        ...regionList?.map((item) => ({
           text: item.title,
           value: item.value,
         })),
