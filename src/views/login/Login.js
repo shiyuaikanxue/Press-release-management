@@ -4,12 +4,15 @@ import { Form, Input, Checkbox, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { login } from "../../redux/slice/loginedSlice";
+import { useDispatch } from "react-redux";
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const onFinish = async (value) => {
     const userResponse = await axios.get(
       `/users?username=${value.username}&password=${value.password}`
-    );  
+    );
     if (userResponse.data && userResponse.data[0]?.roleState) {
       const userRight = await axios.get(
         `/roles?roleType=${userResponse.data[0].roleId}`
@@ -23,6 +26,7 @@ export default function Login() {
           },
         })
       );
+      dispatch(login())
       navigate("/home");
     } else {
       message.error("不存在该账户，请联系管理员注册");

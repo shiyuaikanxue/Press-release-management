@@ -5,9 +5,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-### 1.`npm install` Installation dependencies
-### 2.`npm run mock` Start the backend service on port 5000. If you want to make changes, you can do so in the package.js file
-### 3.`npm start` Project initiation
+
+### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.

@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "../views/login/Login";
 import NewsSandBox from "../views/sandbox/NewsSandBox";
 import News from "../views/news/News";
 import Detail from "../views/news/Detail";
+import { useSelector } from "react-redux";
 export default function IndexRouter() {
-  const isLogin = localStorage.getItem("token");
+  const isLogin = useSelector((state) => state.login.Value);
   return (
     <HashRouter>
       <Routes>

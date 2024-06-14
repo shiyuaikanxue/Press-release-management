@@ -76,7 +76,7 @@ export default function Home() {
       });
   }, []);
   useEffect(() => {
-    initMycharts(_.groupBy(allList, (item) => item.category.title));
+    initMycharts(_.groupBy(allList, (item) => item.category?.title));
     return () => {
       window.onresize = null;
     };
@@ -88,7 +88,7 @@ export default function Home() {
   }, [open]);
   const initPieChart = () => {
     const currentList = allList.filter((item) => item.author === username);
-    const groupObj = _.groupBy(currentList, (item) => item.category.title);
+    const groupObj = _.groupBy(currentList, (item) => item.category?.title);
     const list = [];
     for (var i in groupObj) {
       list.push({
@@ -184,7 +184,7 @@ export default function Home() {
                 <List.Item>
                   <a href={`#/news-manage/preview/${item.id}`}>
                     <ZoomInOutlined style={{ paddingRight: "10px" }} />
-                    {item.title}
+                    {item?.title}
                   </a>
                   <span
                     style={{

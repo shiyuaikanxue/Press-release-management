@@ -5,6 +5,7 @@ import { UserOutlined, SmileOutlined } from "@ant-design/icons";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/slice/loginedSlice";
 import {
   handleCollapShow,
   handleCollapColse,
@@ -30,6 +31,7 @@ export default function TopHeader() {
       icon: <SmileOutlined />,
       onClick: () => {
         localStorage.removeItem("token");
+        dispatch(logout());
         Navigate("/login");
       },
       danger: true,

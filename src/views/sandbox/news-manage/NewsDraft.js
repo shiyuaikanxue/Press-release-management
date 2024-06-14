@@ -81,7 +81,7 @@ export default function NewsDraft() {
       title: "分类",
       dataIndex: "category",
       render: (category) => {
-        return category.title;
+        return category?.title;
       },
     },
     {
