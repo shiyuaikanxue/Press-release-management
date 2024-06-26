@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     axios
       .all([
-        axios.get(`/news?publishState=2&_sort=view`),
+        axios.get(`/news/sort?publishState=2&sort=view`),
         axios.get("/categories"),
       ])
       .then(([res1, res2]) => {
@@ -34,7 +34,7 @@ export default function Home() {
 
         list.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
         });
         setViewList(list);
@@ -43,7 +43,7 @@ export default function Home() {
   useEffect(() => {
     axios
       .all([
-        axios.get(`/news?publishState=2&_sort=star`),
+        axios.get(`/news/sort?publishState=2&sort=star`),
         axios.get("/categories"),
       ])
       .then(([res1, res2]) => {
@@ -51,7 +51,7 @@ export default function Home() {
         list.sort((a, b) => b.star - a.star); //降序排序
         list.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
         });
         setStarList(list);
@@ -69,7 +69,7 @@ export default function Home() {
         const list = res1.data;
         list.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
         });
         setAllList(list);
@@ -182,7 +182,7 @@ export default function Home() {
               dataSource={viewList}
               renderItem={(item, index) => (
                 <List.Item>
-                  <a href={`#/news-manage/preview/${item.id}`}>
+                  <a href={`#/news-manage/preview/${item._id}`}>
                     <ZoomInOutlined style={{ paddingRight: "10px" }} />
                     {item?.title}
                   </a>
@@ -214,7 +214,7 @@ export default function Home() {
               dataSource={starList}
               renderItem={(item, index) => (
                 <List.Item>
-                  <a href={`#/news-manage/preview/${item.id}`}>
+                  <a href={`#/news-manage/preview/${item._id}`}>
                     <FileSearchOutlined style={{ paddingRight: "10px" }} />
                     {item.title}
                   </a>

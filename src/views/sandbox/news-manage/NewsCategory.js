@@ -36,7 +36,7 @@ export default function NewsCategory() {
         return item;
       })
     );
-    axios.patch(`/categories/${record.id}`, {
+    axios.patch(`/categories?_id=${record.id}`, {
       title: record.title,
       value: record.value,
     });
@@ -44,14 +44,14 @@ export default function NewsCategory() {
   const handleDelete = (item) => {
     //删除本地
     setDataSource(dataSource.filter((data) => data.id !== item.id));
-    axios.delete(`/categories/${item.id}`);
+    axios.delete(`/categories?_id=${item.id}`);
   };
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      render(id) {
-        return <b>{id}</b>;
+      dataIndex: "_id",
+      render(id,item,index) {
+        return <b>{index+1}</b>;
       },
     },
     {
@@ -72,7 +72,7 @@ export default function NewsCategory() {
           <div>
             <Button
               shape="circle"
-              disabled={roleId != 1}
+              disabled={roleId !== '1'}
               danger
               icon={<DeleteOutlined />}
               onClick={() => {

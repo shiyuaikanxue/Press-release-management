@@ -36,11 +36,12 @@ export default function UserList() {
         axios.get("/roles"), // 假设你知道如何根据 users 的数据获取对应的 roles
       ])
       .then(([users, roles]) => {
-        console.log(users, roles);
         const list = users?.data;
         const roleList = roles?.data;
         list?.map((item) => {
-          item["role"] = roleList.filter((sub) => sub.id === item.roleId)[0];
+          item["role"] = roleList.filter(
+            (sub) => sub.roleType === item.roleId
+          )[0];
         });
         setDataSource(
           roleObj[roleType] === "superAdmin"
@@ -59,8 +60,8 @@ export default function UserList() {
     axios.get(`/roles`).then((res) => {
       const list = res?.data;
       list?.map((item) => {
-        item["label"] = item.roleName;
-        item["value"] = item.id;
+        item["label"] = item?.roleName;
+        item["value"] = item.roleType;
       });
       setRoleList(list);
     });
@@ -86,14 +87,14 @@ export default function UserList() {
   //删除
   const handleDelete = (item) => {
     //删除本地
-    setDataSource(dataSource.filter((data) => data.id !== item.id));
-    axios.delete(`/users/${item.id}`);
+    setDataSource(dataSource.filter((data) => data._id !== item._id));
+    axios.delete(`/users?_id=${item._id}`);
   };
   //处理改变账号状态
   const handleChange = (item) => {
     item.roleState = !item.roleState;
     setDataSource([...dataSource]);
-    axios.patch(`/users/${item.id}`, {
+    axios.patch(`/users?_id=${item._id}`, {
       roleState: item.roleState,
     });
   };
@@ -143,19 +144,21 @@ export default function UserList() {
     updateForm.current.validateFields().then((value) => {
       //修改本地数据
       setDataSource(
-        dataSource?.map((item) => {
+        dataSource.map((item) => {
           //找到修改的账户
-          if (currentItem.id === item.id) {
+          if (currentItem._id === item._id) {
             return {
               ...item,
               ...value,
-              role: roleList.filter((data) => data.id === value.roleId)[0],
+              role: roleList.filter(
+                (data) => data.roleType === value.roleId
+              )[0],
             };
           }
           return item;
         })
       );
-      axios.patch(`/users/${currentItem.id}`, {
+      axios.patch(`/users?_id=${currentItem._id}`, {
         ...value,
       });
     });
@@ -190,7 +193,7 @@ export default function UserList() {
       title: "角色名称",
       dataIndex: "role",
       render(role) {
-        return role.roleName;
+        return role?.roleName;
       },
     },
     {

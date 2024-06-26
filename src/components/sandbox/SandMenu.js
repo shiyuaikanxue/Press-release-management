@@ -45,13 +45,13 @@ export default function SandMenu() {
             if (iconList[sub.key]) {
               sub["icon"] = iconList[sub.key];
             }
-            return sub.pagepermisson === 1 && rights.includes(sub.key);
+            return sub.pagepermisson === 1 && rights?.includes(sub.key);
           });
         }
         if (iconList[item.key]) {
           item["icon"] = iconList[item.key];
         }
-        return item.pagepermisson === 1 && rights.includes(item.key);
+        return item.pagepermisson === 1 && rights?.includes(item.key);
       })
       .map((item) => {
         // 如果清理后没有children，则删除children属性
@@ -64,9 +64,16 @@ export default function SandMenu() {
   };
   //得到权限数据
   useEffect(() => {
-    axios.get("/rights?_embed=children").then((res) => {
-      setMenu(res.data);
-    });
+    axios
+      .all([axios.get("/rights"), axios.get("/children")])
+      .then(([res1, res2]) => {
+        const rights = res1.data;
+        const child = res2.data;
+        rights.map((item) => {
+          item.children = child.filter((sub) => sub.rightId == item._id);
+        });
+        setMenu(rights);
+      });
   }, []);
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>

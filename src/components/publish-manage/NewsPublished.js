@@ -6,7 +6,7 @@ export default function NewsPublished(props) {
       title: "新闻标题",
       dataIndex: "title",
       render(title, item) {
-        return <a href={`#/news-manage/preview/${item.id}`}>{title}</a>;
+        return <a href={`#/news-manage/preview/${item._id}`}>{title}</a>;
       },
     },
     {
@@ -23,7 +23,7 @@ export default function NewsPublished(props) {
     {
       title: "操作",
       render(item) {
-        return <div>{props.button(item.id)}</div>;
+        return <div>{props.button(item._id)}</div>;
       },
     },
   ];
@@ -33,7 +33,7 @@ export default function NewsPublished(props) {
       <Table
         dataSource={props.dataSource}
         columns={columns}
-        rowKey={(item) => item.id}
+        rowKey={(item) => item._id}
       />
     </div>
   );

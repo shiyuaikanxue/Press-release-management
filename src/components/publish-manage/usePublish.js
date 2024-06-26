@@ -13,16 +13,16 @@ function usePublish(type, notice) {
         list = list.filter((item) => item.publishState == type);
         list.forEach((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id == item.categoryId
+            (sub) => sub._id == item.categoryId
           )[0];
         });
         setDataSource(list);
       });
   }, [username, type]);
   const handlePublish = (id) => {
-    setDataSource(dataSource.filter((item) => item.id !== id));
+    setDataSource(dataSource.filter((item) => item._id !== id));
     axios
-      .patch(`/news/${id}`, {
+      .patch(`/news?_id=${id}`, {
         publishState: 2,
         publishTime: Date.now(),
       })
@@ -31,9 +31,9 @@ function usePublish(type, notice) {
       });
   };
   const handleSunset = (id) => {
-    setDataSource(dataSource.filter((item) => item.id !== id));
+    setDataSource(dataSource.filter((item) => item._id !== id));
     axios
-      .patch(`/news/${id}`, {
+      .patch(`/news?_id=${id}`, {
         publishState: 3,
         publishTime: Date.now(),
       })
@@ -42,8 +42,8 @@ function usePublish(type, notice) {
       });
   };
   const handleDelete = (id) => {
-    setDataSource(dataSource.filter((item) => item.id !== id));
-    axios.delete(`/news/${id}`).then((res) => {
+    setDataSource(dataSource.filter((item) => item._id !== id));
+    axios.delete(`/news?_id=${id}`).then((res) => {
       notice();
     });
   };

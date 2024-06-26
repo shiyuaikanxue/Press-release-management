@@ -16,20 +16,20 @@ export default function AuditList() {
       .then(([res1, res2]) => {
         let list = res1.data;
         list = list.filter(
-          (item) => (item.auditState > 0) & (item.publishState < 1)
+          (item) => (item.auditState !== 0) & (item.publishState <= 1)
         );
         list.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
         });
         setDataSource(list);
       });
   }, [username]);
   const handleRevert = (item) => {
-    setDataSource(dataSource.filter((data) => item.id !== data.id));
+    setDataSource(dataSource.filter((data) => item._id !== data._id));
     axios
-      .patch(`/news/${item.id}`, {
+      .patch(`/news?_id=${item._id}`, {
         auditState: 0,
       })
       .then((res) => {
@@ -41,11 +41,11 @@ export default function AuditList() {
       });
   };
   const handleUpdate = (item) => {
-    Navigate(`/news-manage/update/${item.id}`);
+    Navigate(`/news-manage/update/${item._id}`);
   };
   const handlePublish = (item) => {
     axios
-      .patch(`/news/${item.id}`, {
+      .patch(`/news?_id=${item._id}`, {
         publishState: 2,
         publishTime: Date.now(),
       })
@@ -67,7 +67,7 @@ export default function AuditList() {
       title: "新闻标题",
       dataIndex: "title",
       render: (title, item) => {
-        return <a href={`#/news-manage/preview/${item.id}`}>{title}</a>;
+        return <a href={`#/news-manage/preview/${item._id}`}>{title}</a>;
       },
     },
     {
@@ -136,7 +136,7 @@ export default function AuditList() {
       <Table
         dataSource={dataSource}
         columns={columns}
-        rowKey={(item) => item.id}
+        rowKey={(item) => item._id}
       />
     </div>
   );

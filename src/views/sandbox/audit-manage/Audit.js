@@ -16,7 +16,7 @@ export default function Audit() {
   );
   const handleAudit = (item, auditState, publishState) => {
     axios
-      .patch(`/news/${item.id}`, {
+      .patch(`/news?_id=${item._id}`, {
         auditState,
         publishState,
       })
@@ -24,7 +24,7 @@ export default function Audit() {
         setSpinning(true);
         setTimeout(() => {
           setSpinning(false);
-          setDataSource(dataSource.filter((data) => item.id !== data.id));
+          setDataSource(dataSource.filter((data) => item._id !== data._id));
           api.info({
             message: publishState === 0 ? "驳回成功" : "审核通过",
             description: "该作者可在审核列表查看状态",
@@ -38,7 +38,7 @@ export default function Audit() {
       title: "新闻标题",
       dataIndex: "title",
       render(title, item) {
-        return <a href={`#/news-manage/preview/${item.id}`}>{title}</a>;
+        return <a href={`#/news-manage/preview/${item._id}`}>{title}</a>;
       },
     },
     {
@@ -87,7 +87,7 @@ export default function Audit() {
         const list = res1.data;
         list.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
           setDataSource(
             roleObj[roleId] === "superAdmin"

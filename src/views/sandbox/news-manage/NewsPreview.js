@@ -10,16 +10,16 @@ export default function NewsPreview() {
   useEffect(() => {
     axios
       .all([
-        axios.get(`/news/${Params.id}`),
+        axios.get(`/news?_id=${Params.id}`),
         axios.get("/categories"),
         axios.get("/roles"),
       ])
       .then(([res1, res2, res3]) => {
-        const list = res1.data;
+        const list = res1.data[0];
         list["category"] = res2.data.filter(
-          (sub) => list.categoryId == sub.id
+          (sub) => list.categoryId == sub._id
         )[0];
-        list["role"] = res3.data.filter((sub) => list.roleId == sub.id)[0];
+        list["role"] = res3.data.filter((sub) => list.roleId == sub._id)[0];
         setNewsInfo(list);
       });
   }, [Params.id]);

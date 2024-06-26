@@ -51,7 +51,7 @@ export default function NewsRouter() {
     );
   };
   const checkUserPermission = (item) => {
-    return rights.includes(item.key);
+    return rights?.includes(item.key);
   };
   return (
     <Spin size="large" spinning={showLoading}>

@@ -14,19 +14,16 @@ export default function NewsDraft() {
   const [dataSource, setDataSource] = useState([]);
   const [spinning, setSpinning] = useState(false);
   const { username } = JSON.parse(localStorage.getItem("token"));
-  console.log(username);
-  console.log(`/news?auditState=0&author=${username}`);
   const navigate = useNavigate();
   useEffect(() => {
     axios
       .all([axios.get(`/news?author=${username}`), axios.get("/categories")])
       .then(([res1, res2]) => {
-        console.log(res1, res2);
         let list = res1.data;
         list = list.filter((item) => item.auditState == 0);
         list.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
         });
         setDataSource(list);
@@ -34,7 +31,7 @@ export default function NewsDraft() {
   }, [username]);
   const handleCheck = (id) => {
     axios
-      .patch(`/news/${id}`, {
+      .patch(`/news?_id=${id}`, {
         auditState: 1,
       })
       .then((res) => {
@@ -63,15 +60,15 @@ export default function NewsDraft() {
   };
   const handleDelete = (item) => {
     //删除本地
-    setDataSource(dataSource.filter((data) => data.id !== item.id));
-    axios.delete(`/news/${item.id}`);
+    setDataSource(dataSource.filter((data) => data._id !== item._id));
+    axios.delete(`/news?_id=${item._id}`);
   };
   const columns = [
     {
       title: "新闻标题",
       dataIndex: "title",
       render: (title, item) => {
-        return <a href={`#/news-manage/preview/${item.id}`}>{title}</a>;
+        return <a href={`#/news-manage/preview/${item._id}`}>{title}</a>;
       },
     },
     {
@@ -105,7 +102,7 @@ export default function NewsDraft() {
                 style={{ margin: " 0 20px" }}
                 shape="circle"
                 onClick={() => {
-                  navigate(`/news-manage/update/${item.id}`);
+                  navigate(`/news-manage/update/${item._id}`);
                 }}
                 icon={<EditOutlined />}
               />
@@ -115,7 +112,7 @@ export default function NewsDraft() {
                 type="primary"
                 shape="circle"
                 onClick={() => {
-                  handleCheck(item.id);
+                  handleCheck(item._id);
                 }}
                 icon={<UploadOutlined />}
               />

@@ -54,7 +54,7 @@ const UserForm = forwardRef((props, ref) => {
       } else {
         const list = roleList;
         return list.map((item) => {
-          if (roleObj[item.id] !== 'editor') {
+          if (roleObj[item.roleType] !== "editor") {
             return { ...item, disabled: true };
           } else {
             return item;

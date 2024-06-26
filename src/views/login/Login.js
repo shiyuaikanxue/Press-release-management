@@ -8,30 +8,36 @@ import { login } from "../../redux/slice/loginedSlice";
 import { useDispatch } from "react-redux";
 export default function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const onFinish = async (value) => {
-    const userResponse = await axios.get(
-      `/users?username=${value.username}&password=${value.password}`
-    );
-    if (userResponse.data && userResponse.data[0]?.roleState) {
-      const userRight = await axios.get(
-        `/roles?roleType=${userResponse.data[0].roleId}`
-      );
+    await axios
+      .get(`/users?username=${value.username}&password=${value.password}`)
+      .then((res) => {
+        if (res.data.length === 0) {
+          isLogin(false);
+        } else {
+          isLogin(true, res.data[0]);
+        }
+      });
+  };
+  async function isLogin(isEnter, account = null) {
+    if (isEnter) {
+      const userRight = await axios.get(`/roles?roleType=${account.roleId}`);
       localStorage.setItem(
         "token",
         JSON.stringify({
-          ...userResponse.data[0],
+          ...account,
           role: {
             ...userRight.data[0],
           },
         })
       );
-      dispatch(login())
+      dispatch(login());
       navigate("/home");
     } else {
       message.error("不存在该账户，请联系管理员注册");
     }
-  };
+  }
   return (
     <div className={style.login}>
       <div className={style.formContainer}>

@@ -53,37 +53,39 @@ export default function NewsAdd() {
     setCurrent(current - 1);
   };
   const handleSave = (auditState) => {
-    axios
-      .post("/news", {
-        ...formInfo,
-        content,
-        categoryId: categoryIdList[formInfo.categoryId],
-        region: User.region ? User.region : "全球",
-        author: User.username,
-        roleId: User.roleId,
-        auditState,
-        publishState: 0,
-        createTime: Date.now(),
-        star: 0,
-        view: 0,
-      })
-      .then((res) => {
-        setSpinning(true);
-        api.info({
-          message: auditState === 0 ? `保存成功` : "上传成功",
-          description:
-            auditState === 0
-              ? "正在前往草稿箱查看..."
-              : "正在前往审核列表查看...",
-          placement: "bottomRight",
+    axios.get(`/categories?value=${formInfo.categoryId}`).then((element) => {
+      axios
+        .post("/news", {
+          ...formInfo,
+          content,
+          categoryId: element.data[0]._id,
+          region: User.region ? User.region : "全球",
+          author: User.username,
+          roleId: User._id,
+          auditState,
+          publishState: 0,
+          createTime: Date.now(),
+          star: 0,
+          view: 0,
+        })
+        .then((res) => {
+          setSpinning(true);
+          api.info({
+            message: auditState === 0 ? `保存成功` : "上传成功",
+            description:
+              auditState === 0
+                ? "正在前往草稿箱查看..."
+                : "正在前往审核列表查看...",
+            placement: "bottomRight",
+          });
+          setTimeout(() => {
+            setSpinning(false);
+            Navigate(
+              auditState === 0 ? "/news-manage/draft" : "/audit-manage/list"
+            );
+          }, 2000);
         });
-        setTimeout(() => {
-          setSpinning(false);
-          Navigate(
-            auditState === 0 ? "/news-manage/draft" : "/audit-manage/list"
-          );
-        }, 2000);
-      });
+    });
   };
   useEffect(() => {
     axios.get("/categories").then((res) => {

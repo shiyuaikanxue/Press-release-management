@@ -12,7 +12,7 @@ export default function News() {
         const newsList = res1.data;
         newsList.map((item) => {
           item["category"] = res2.data.filter(
-            (sub) => sub.id === item.categoryId
+            (sub) => sub._id === item.categoryId
           )[0];
         });
         setAllList(
@@ -39,7 +39,9 @@ export default function News() {
                   pagination={{ pageSize: 3 }}
                   renderItem={(data) => (
                     <List.Item>
-                      <a href={`#/detail/${data.id}`}>{data.title}</a>
+                      <a href={`#/detail/${data._id}`} style={{ width: "90%" }}>
+                        {data.title}
+                      </a>
                       <span style={{ color: data.star > 1000 ? "red" : "" }}>
                         {data.star}
                       </span>

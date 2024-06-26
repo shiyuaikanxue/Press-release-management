@@ -26,15 +26,15 @@ export default function RoleList() {
   };
   const handleDelete = (item) => {
     //删除本地
-    setDataSource(dataSource.filter((data) => data.id !== item.id));
-    axios.delete(`/roles/${item.id}`);
+    setDataSource(dataSource.filter((data) => data._id !== item._id));
+    axios.delete(`/roles?_id=${item.id}`);
   };
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      render: (id) => {
-        return <div>{id}</div>;
+      dataIndex: "_id",
+      render: (id, item, index) => {
+        return <div>{index + 1}</div>;
       },
     },
     {
@@ -61,7 +61,7 @@ export default function RoleList() {
               onClick={() => {
                 setIsModalOpen(true);
                 setCurrentRights(item.rights);
-                setCurrentId(item.id);
+                setCurrentId(item._id);
               }}
             />
           </div>
@@ -73,25 +73,34 @@ export default function RoleList() {
     axios.get(`/roles`).then((res) => {
       setDataSource(res.data);
     });
-    axios.get(`/rights?_embed=children`).then((res) => {
-      //由于数据返回的是label字段，需要自行添加title字段，返回数据只存在两层结构，如果存在更深层次的结构，就需要深度遍历可以用递归的形式
-      const list = res.data;
-      list.map((item) => {
-        item["title"] = item.label;
-        if (item.children?.length > 0) {
-          item.children.map((sub) => {
-            sub["title"] = sub.label;
-          });
-        }
+    axios
+      .all([axios.get("/rights"), axios.get("/children")])
+      .then(([res1, res2]) => {
+        const list = res1.data;
+        const child = res2.data;
+        list.map((item) => {
+          return (item.children = child.filter(
+            (sub) => sub.rightId === item._id
+          ));
+        });
+        //由于数据返回的是label字段，需要自行添加title字段，返回数据只存在两层结构，如果存在更深层次的结构，就需要深度遍历可以用递归的形式
+        list.map((item) => {
+          item["title"] = item.label;
+          if (item.children?.length > 0) {
+            item.children.map((sub) => {
+              return (sub["title"] = sub.label);
+            });
+          }
+          return true;
+        });
+        setRightList([...list]);
       });
-      setRightList([...list]);
-    });
   }, []);
   const handleOk = () => {
     setIsModalOpen(false);
     setDataSource(
       dataSource.map((item) => {
-        if (item.id === currentId) {
+        if (item._id === currentId) {
           return {
             ...item,
             rights: currentRights,
@@ -100,7 +109,7 @@ export default function RoleList() {
         return item;
       })
     );
-    axios.patch(`/roles/${currentId}`, {
+    axios.patch(`/roles?_id=${currentId}`, {
       rights: currentRights,
     });
   };

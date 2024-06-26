@@ -10,15 +10,21 @@ export default function RightList() {
   const { confirm } = Modal;
   const [dataSource, setDataSource] = useState([]);
   useEffect(() => {
-    axios.get("/rights?_embed=children").then((res) => {
-      const list = res.data;
-      list.forEach((element) => {
-        if (element.children?.length === 0) {
-          element.children = "";
-        }
+    axios
+      .all([axios.get("/rights"), axios.get("/children")])
+      .then(([res1, res2]) => {
+        const list = res1.data;
+        const child = res2.data;
+        list.forEach((item) => {
+          item.children = child.filter((sub) => sub.rightId === item._id);
+        });
+        list.forEach((element) => {
+          if (element.children?.length === 0) {
+            element.children = "";
+          }
+        });
+        setDataSource(list);
       });
-      setDataSource(list);
-    });
   }, []);
   const handleConfirm = (item) => {
     confirm({
@@ -34,24 +40,26 @@ export default function RightList() {
   const handleDelete = (item) => {
     //删除本地
     if (item.grade === 1) {
-      setDataSource(dataSource.filter((data) => data.id !== item.id));
-      axios.delete(`/rights/${item.id}`);
+      setDataSource(dataSource.filter((data) => data._id !== item._id));
+      axios.delete(`/rights?_id=${item._id}`);
     } else {
-      let list = dataSource.filter((data) => data.id === item.rightId);
-      list[0].children = list[0].children.filter((data) => data.id !== item.id);
+      let list = dataSource.filter((data) => data._id === item.rightId);
+      list[0].children = list[0].children.filter(
+        (data) => data._id !== item._id
+      );
       setDataSource([...dataSource]);
-      axios.delete(`/children/${item.id}`);
+      axios.delete(`/children?_id=${item._id}`);
     }
   };
   const switchMethod = (item) => {
     item.pagepermisson = item.pagepermisson === 1 ? 0 : 1;
     setDataSource([...dataSource]);
     if (item.grade === 1) {
-      axios.patch(`/rights/${item.id}`, {
+      axios.patch(`/rights?_id=${item._id}`, {
         pagepermisson: item.pagepermisson,
       });
     } else {
-      axios.patch(`/children/${item.id}`, {
+      axios.patch(`/children?_id=${item._id}`, {
         pagepermisson: item.pagepermisson,
       });
     }
@@ -59,9 +67,9 @@ export default function RightList() {
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      render(id) {
-        return <b>{id}</b>;
+      dataIndex: "_id",
+      render(id, item, index) {
+        return <b>{index + 1}</b>;
       },
     },
     {
