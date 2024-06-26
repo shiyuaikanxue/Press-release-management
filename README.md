@@ -1,5 +1,12 @@
 # Getting Started with Create React App
+## 预览网站：
+http://8.140.48.159/newSystem/#/login
 
+## 测试管理账号：github_test 
+## 测试管理账号密码：123
+
+## 测试区域编辑账号：test_github
+## 测试区域编辑密码：123
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
