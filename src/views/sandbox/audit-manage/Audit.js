@@ -49,7 +49,7 @@ export default function Audit() {
       title: "新闻分类",
       dataIndex: "category",
       render: (category) => {
-        return <div>{category.title}</div>;
+        return <div>{category?.title}</div>;
       },
     },
     {

@@ -26,7 +26,7 @@ export default function NewsCategory() {
   const handleSave = (record) => {
     setDataSource(
       dataSource.map((item) => {
-        if (item.id === record.id) {
+        if (item._id === record._id) {
           return {
             ...item,
             title: record.title,
@@ -36,15 +36,15 @@ export default function NewsCategory() {
         return item;
       })
     );
-    axios.patch(`/categories?_id=${record.id}`, {
+    axios.patch(`/categories?_id=${record._id}`, {
       title: record.title,
       value: record.value,
     });
   };
   const handleDelete = (item) => {
     //删除本地
-    setDataSource(dataSource.filter((data) => data.id !== item.id));
-    axios.delete(`/categories?_id=${item.id}`);
+    setDataSource(dataSource.filter((data) => data._id !== item._id));
+    axios.delete(`/categories?_id=${item._id}`);
   };
   const columns = [
     {

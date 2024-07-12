@@ -78,7 +78,7 @@ export default function SandMenu() {
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        {!collapsed && <div className="demo-logo-vertical">新闻发布系统</div>}
+        {!collapsed && <div className="demo-logo-vertical">知七新闻</div>}
         <Menu
           style={{ flex: 1, overflow: "auto" }}
           theme="dark"

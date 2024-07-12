@@ -41,7 +41,7 @@ export default function Login() {
   return (
     <div className={style.login}>
       <div className={style.formContainer}>
-        <div className={style.title}>新闻发布管理系统</div>
+        <div className={style.title}>知七新闻平台</div>
         <Form
           name="normal_login"
           className="login-form"

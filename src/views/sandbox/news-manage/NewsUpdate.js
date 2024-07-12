@@ -82,7 +82,7 @@ export default function NewsUpdate() {
   };
   const handleSave = (auditState) => {
     axios
-      .patch(`/news?_id=${Params._id}`, {
+      .patch(`/news?_id=${Params.id}`, {
         ...formInfo,
         content,
         categoryId: categoryIdList[formInfo.categoryId],

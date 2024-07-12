@@ -131,7 +131,7 @@ export default function UserList() {
           .then((user) => {
             const newUser = user.data;
             newUser["role"] = roleList.filter(
-              (sub) => sub.id === newUser.roleId
+              (sub) => sub.roleType === newUser.roleId
             )[0];
             setDataSource([...dataSource, newUser]);
           });
@@ -193,7 +193,7 @@ export default function UserList() {
       title: "角色名称",
       dataIndex: "role",
       render(role) {
-        return role?.roleName;
+        return role.roleName;
       },
     },
     {

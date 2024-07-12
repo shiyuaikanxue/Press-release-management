@@ -27,7 +27,7 @@ export default function News() {
         margin: "0 auto",
       }}
     >
-      <PageHeader title="全球大新闻" subTitle="查看新闻"></PageHeader>
+      <PageHeader title="知七新闻" subTitle="查看新闻"></PageHeader>
       <Row gutter={[16, 16]}>
         {allList.map((item, index) => {
           return (
