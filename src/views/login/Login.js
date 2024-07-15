@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import style from "./login.module.scss";
 import { Form, Input, Checkbox, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -6,9 +6,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { login } from "../../redux/slice/loginedSlice";
 import { useDispatch } from "react-redux";
+import { background } from "./canvas/Background_canvas";
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const canvas = useRef();
+  useEffect(() => {
+    background(canvas.current, 40, null, 'pink','rgb(200,0,200)');
+  }, []);
   const onFinish = async (value) => {
     await axios
       .get(`/users?username=${value.username}&password=${value.password}`)
@@ -40,6 +45,7 @@ export default function Login() {
   }
   return (
     <div className={style.login}>
+      <canvas className={style.background} ref={canvas}></canvas>
       <div className={style.formContainer}>
         <div className={style.title}>知七新闻平台</div>
         <Form

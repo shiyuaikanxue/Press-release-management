@@ -1,8 +1,7 @@
 import axios from "axios";
 import { showLoading, closeLoading } from "../redux/slice/loadingSlice";
 import store from "../redux/store";
-// const baseURL = "http://localhost:8080";
-const baseURL = "http://8.140.48.159:8080";
+const baseURL = process.env.REACT_APP_BASEURL;
 export default baseURL;
 axios.defaults.baseURL = baseURL;
 axios.interceptors.request.use(
