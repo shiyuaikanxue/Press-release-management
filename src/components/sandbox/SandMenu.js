@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect } from "react";
 import "./SandMenu.scss";
 import { Layout, Menu } from "antd";
@@ -71,6 +72,7 @@ export default function SandMenu() {
         const child = res2.data;
         rights.map((item) => {
           item.children = child.filter((sub) => sub.rightId == item._id);
+          return null;
         });
         setMenu(rights);
       });

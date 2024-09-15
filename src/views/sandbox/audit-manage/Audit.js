@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table, Button, Spin, notification } from "antd";
@@ -101,6 +102,7 @@ export default function Audit() {
                   ),
                 ]
           );
+          return null;
         });
       });
   }, []);

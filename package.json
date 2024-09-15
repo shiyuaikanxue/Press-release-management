@@ -30,12 +30,12 @@
   },
   "scripts": {
     "mock": "json-server --watch ./src/mock/db.json --port 5000",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:prod": "cross-env REACT_APP_ENV=production react-scripts build",
-    "build:dev": "cross-env REACT_APP_ENV=development react-scripts build"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
+    "build:prod": "cross-env REACT_APP_ENV=production react-app-rewired build",
+    "build:dev": "cross-env REACT_APP_ENV=development react-app-rewired build"
   },
   "eslintConfig": {
     "extends": [
@@ -56,6 +56,8 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1"
   }
 }

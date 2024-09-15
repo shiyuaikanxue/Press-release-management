@@ -14,6 +14,7 @@ export default function News() {
           item["category"] = res2.data.filter(
             (sub) => sub._id === item.categoryId
           )[0];
+          return null;
         });
         setAllList(
           Object.entries(_.groupBy(newsList, (item) => item.category.title))

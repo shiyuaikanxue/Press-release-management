@@ -42,6 +42,7 @@ export default function UserList() {
           item["role"] = roleList.filter(
             (sub) => sub.roleType === item.roleId
           )[0];
+          return null;
         });
         setDataSource(
           roleObj[roleType] === "superAdmin"
@@ -55,6 +56,7 @@ export default function UserList() {
               ]
         );
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     axios.get(`/roles`).then((res) => {
@@ -62,6 +64,7 @@ export default function UserList() {
       list?.map((item) => {
         item["label"] = item?.roleName;
         item["value"] = item.roleType;
+        return null;
       });
       setRoleList(list);
     });

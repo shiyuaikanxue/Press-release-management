@@ -1,7 +1,8 @@
+/* eslint-disable eqeqeq */
 import { PageHeader } from "@ant-design/pro-components";
 import { Descriptions } from "antd";
 import axios from "axios";
-import moment, { format } from "moment";
+import moment from "moment";
 import { HeartTwoTone } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

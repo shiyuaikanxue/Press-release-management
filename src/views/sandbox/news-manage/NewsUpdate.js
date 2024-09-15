@@ -30,14 +30,14 @@ export default function NewsUpdate() {
     世界体育: "5",
     生活理财: "6",
   };
-  const categoryIdLists = {
-    1: "时事新闻",
-    2: "环球经济",
-    3: "科学技术",
-    4: "军事世界",
-    5: "世界体育",
-    6: "生活理财",
-  };
+  // const categoryIdLists = {
+  //   1: "时事新闻",
+  //   2: "环球经济",
+  //   3: "科学技术",
+  //   4: "军事世界",
+  //   5: "世界体育",
+  //   6: "生活理财",
+  // };
   const Navigate = useNavigate();
   const Params = useParams();
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function NewsUpdate() {
         });
         setContent(list.content);
       });
-  }, [Params._id]);
+  }, [Params.id]);
   const handleNext = () => {
     if (current === 0) {
       NewsForm.current

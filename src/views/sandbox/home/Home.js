@@ -36,6 +36,7 @@ export default function Home() {
           item["category"] = res2.data.filter(
             (sub) => sub._id === item.categoryId
           )[0];
+          return null;
         });
         setViewList(list);
       });
@@ -53,6 +54,7 @@ export default function Home() {
           item["category"] = res2.data.filter(
             (sub) => sub._id === item.categoryId
           )[0];
+          return null;
         });
         setStarList(list);
       });
@@ -71,6 +73,7 @@ export default function Home() {
           item["category"] = res2.data.filter(
             (sub) => sub._id === item.categoryId
           )[0];
+          return null;
         });
         setAllList(list);
       });
@@ -85,6 +88,7 @@ export default function Home() {
     if (open) {
       initPieChart();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
   const initPieChart = () => {
     const currentList = allList.filter((item) => item.author === username);
@@ -129,6 +133,7 @@ export default function Home() {
     };
     pieChart.current.setOption(option);
   };
+
   const initMycharts = (obj) => {
     if (myChart.current === null) {
       myChart.current = Echarts.init(mycharts.current);

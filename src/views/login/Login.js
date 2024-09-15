@@ -12,7 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const canvas = useRef();
   useEffect(() => {
-    background(canvas.current, 40, null, 'pink','rgb(200,0,200)');
+    background(canvas.current, 40, null, "pink", "rgb(200,0,200)");
   }, []);
   const onFinish = async (value) => {
     await axios
@@ -46,8 +46,15 @@ export default function Login() {
   return (
     <div className={style.login}>
       <canvas className={style.background} ref={canvas}></canvas>
-      <div className={style.formContainer}>
-        <div className={style.title}>知七新闻平台</div>
+      <div
+        className={style.formContainer}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <div className={style.title} style={{ userSelect: "none" }}>
+          知七新闻平台
+        </div>
         <Form
           name="normal_login"
           className="login-form"
@@ -87,12 +94,12 @@ export default function Login() {
           </Form.Item>
           <Form.Item>
             <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
+              {/* <Checkbox>Remember me</Checkbox> */}
             </Form.Item>
-
-            <a className="login-form-forgot" href="">
+            {/* 暂时未开发忘记密码功能 */}
+            {/* <a className="login-form-forgot" href="">
               Forgot password
-            </a>
+            </a> */}
           </Form.Item>
 
           <Form.Item>
@@ -103,6 +110,7 @@ export default function Login() {
             >
               登录
             </Button>
+            {/* 暂时未开发注册功能 */}
             Or <a href="">register now!</a>
           </Form.Item>
         </Form>

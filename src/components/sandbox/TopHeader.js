@@ -24,7 +24,6 @@ import { logout } from "../../redux/slice/loginedSlice";
 import baseUrl from "../../utils/http";
 import { handleCollap } from "../../redux/slice/collapSlice";
 import axios from "axios";
-import Password from "antd/es/input/Password";
 const { Header } = Layout;
 export default function TopHeader() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -34,7 +33,9 @@ export default function TopHeader() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const form = useRef();
-  const [image, setImage] = useState(JSON.parse(localStorage.getItem("token")).image);
+  const [image, setImage] = useState(
+    JSON.parse(localStorage.getItem("token")).image
+  );
   let {
     _id,
     role: { roleName },
@@ -177,6 +178,7 @@ export default function TopHeader() {
             <img
               src={baseUrl + image}
               style={{ width: "100%", borderRadius: "50%" }}
+              alt="个人头像"
             ></img>
           </div>
         </Dropdown>

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import {
   DeleteOutlined,
@@ -25,6 +26,7 @@ export default function NewsDraft() {
           item["category"] = res2.data.filter(
             (sub) => sub._id === item.categoryId
           )[0];
+          return null;
         });
         setDataSource(list);
       });

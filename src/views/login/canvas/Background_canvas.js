@@ -49,6 +49,7 @@ class Background {
       this.lineColor
     );
     this.graph.draw();
+    this.graph.drawMousePoint();
   }
 }
 /**
@@ -63,19 +64,48 @@ class Graph {
     this.Points = new Array(pointNumber)
       .fill(0)
       .map(() => new Point(canvas, ctx, this.pointColor));
+    this.mouse = false;
+  }
+  drawMousePoint() {
+    window.addEventListener("mousemove", (e) => {
+      if (this.mouse) {
+        const mousePoint = this.Points[this.Points.length - 1];
+        mousePoint.x = e.clientX;
+        mousePoint.y = e.clientY;
+      } else {
+        // 如果不存在鼠标点，则创建一个新的
+        this.Points.push(
+          new MovePoint(
+            this.canvas,
+            this.ctx,
+            this.pointColor,
+            e.clientX,
+            e.clientY
+          )
+        );
+        console.log(this.Points);
+        this.mouse = true;
+      }
+    });
+    window.addEventListener("click", (e) => {
+      this.Points.unshift(
+        new Point(this.canvas, this.ctx, this.pointColor, e.clientX, e.clientY)
+      );
+    });
   }
   draw() {
     requestAnimationFrame(() => {
       this.draw();
     });
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
     for (let i = 0; i < this.Points.length; i++) {
       const p1 = this.Points[i];
+      p1.draw();
       for (let j = i + 1; j < this.Points.length; j++) {
         const p2 = this.Points[j];
         const line = new Line(this.ctx, p1.x, p1.y, p2.x, p2.y, this.lineColor);
         line.draw();
-        p1.draw();
       }
     }
   }
@@ -128,18 +158,35 @@ class Line {
     this.ctx.stroke();
   }
 }
-
-/**
- * 拿到canvas和ctx执行生成随机点
- */
-class Point {
-  constructor(canvas, ctx, pointColor) {
+class MovePoint {
+  constructor(canvas, ctx, pointColor, x, y) {
     this.canvas = canvas;
     this.ctx = ctx;
     this.pointColor = pointColor;
     this.r = 4;
-    this.x = getRandom(0, canvas.width - this.r / 2);
-    this.y = getRandom(0, canvas.height - this.r / 2);
+    this.x = x;
+    this.y = y;
+    this.lastDrawTime = null;
+  }
+  draw() {
+    console.log("画鼠标点");
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+    this.ctx.fillStyle = this.pointColor;
+    this.ctx.fill();
+  }
+}
+/**
+ * 拿到canvas和ctx执行生成随机点
+ */
+class Point {
+  constructor(canvas, ctx, pointColor, x, y) {
+    this.canvas = canvas;
+    this.ctx = ctx;
+    this.pointColor = pointColor;
+    this.r = 4;
+    this.x = x || getRandom(0, canvas.width - this.r / 2);
+    this.y = y || getRandom(0, canvas.height - this.r / 2);
     this.xSpeed = getRandom(-50, 50);
     this.ySpeed = getRandom(-50, 50);
     this.lastDrawTime = null;

@@ -23,14 +23,14 @@ export default function NewsAdd() {
   const [content, setContent] = useState("");
   const NewsForm = useRef(null);
   const User = JSON.parse(localStorage.getItem("token"));
-  const categoryIdList = {
-    时事新闻: "1",
-    环球经济: "2",
-    科学技术: "3",
-    军事世界: "4",
-    世界体育: "5",
-    生活理财: "6",
-  };
+  // const categoryIdList = {
+  //   时事新闻: "1",
+  //   环球经济: "2",
+  //   科学技术: "3",
+  //   军事世界: "4",
+  //   世界体育: "5",
+  //   生活理财: "6",
+  // };
   const Navigate = useNavigate();
   const handleNext = () => {
     if (current === 0) {

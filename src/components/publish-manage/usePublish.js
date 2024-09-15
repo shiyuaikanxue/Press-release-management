@@ -1,8 +1,7 @@
+/* eslint-disable eqeqeq */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { notification } from "antd";
 function usePublish(type, notice) {
-  const [api, contextHolder] = notification.useNotification();
   const [dataSource, setDataSource] = useState([]);
   const { username } = JSON.parse(localStorage.getItem("token"));
   useEffect(() => {

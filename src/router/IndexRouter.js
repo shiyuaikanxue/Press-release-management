@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "../views/login/Login";
 import NewsSandBox from "../views/sandbox/NewsSandBox";

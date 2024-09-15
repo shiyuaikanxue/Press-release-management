@@ -22,6 +22,7 @@ export default function AuditList() {
           item["category"] = res2.data.filter(
             (sub) => sub._id === item.categoryId
           )[0];
+          return null;
         });
         setDataSource(list);
       });
